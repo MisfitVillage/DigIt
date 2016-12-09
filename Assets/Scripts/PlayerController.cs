@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 
-	void Update()
+	void FixedUpdate()
 	{
 		if (TouchController.SwipedUp() || Input.GetKey(KeyCode.W))
 		{
