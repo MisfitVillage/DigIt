@@ -27,7 +27,7 @@ public class TouchController : MonoBehaviour
 				// If y < x && y < 0f, means the user is swiping down, so return true.
 				if (Mathf.Abs(deltaPos.x) < Mathf.Abs(deltaPos.y))
 				{
-					return deltaPos.y > 0f;
+					return deltaPos.y > 20f;
 				}
 			}
 		}
@@ -51,7 +51,7 @@ public class TouchController : MonoBehaviour
 				// If y < x && y < 0f, means the user is swiping down, so return true.
 				if (Mathf.Abs(deltaPos.x) < Mathf.Abs(deltaPos.y))
 				{
-					return deltaPos.y < 0f;
+					return deltaPos.y < -20f;
 				}
 			}
 		}
@@ -69,7 +69,7 @@ public class TouchController : MonoBehaviour
 			if (touch.deltaPosition.sqrMagnitude != 0f)
 			{
 				Vector2 deltaPos = touch.deltaPosition;
-				return deltaPos.x < 0f;
+				return deltaPos.x < -20f;
 			}
 		}
 
@@ -86,7 +86,7 @@ public class TouchController : MonoBehaviour
 			if (touch.deltaPosition.sqrMagnitude != 0f)
 			{
 				Vector2 deltaPos = touch.deltaPosition;
-				return deltaPos.x > 0f;
+				return deltaPos.x > 20f;
 			}
 		}
 
