@@ -45,8 +45,11 @@ public class PlayerController : MonoBehaviour
 
 	void OnCollisionEnter(Collision collision)
 	{
-		if (!collision.transform.parent.tag.Equals("DestroyableGround")) return;
-		Destroy(collision.gameObject);
+		if (collision.transform.parent.tag.Equals("DestroyableGround"))
+			Destroy(collision.gameObject);
+
+		if(collision.transform.parent.tag.Equals("Enemy"))
+			Debug.Log("Game Over");
 	}
 
 
