@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 		if (collision.transform.parent.tag.Equals("DestroyableGround"))
 			Destroy(collision.gameObject);
 
-		if (collision.transform.parent.tag.Equals("Enemy"))
+		if (collision.transform.tag.Equals("Enemy"))
 			Debug.Log("Game Over");
 	}
 
