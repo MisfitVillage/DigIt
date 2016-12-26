@@ -2,15 +2,13 @@
 
 public class PlayerController : MonoBehaviour
 {
-	// Player Components
-
 	// Player Environment Variables
 	private TouchController.Movement _playerMovement;
 
-	public float PlayerSpeed;
-	public Vector3 MovingVerticallyRot;
-	public Vector3 IdleStanceRot;
-	public Vector3 MovingLeftRot;
+	[SerializeField] private Vector3 _movingVerticallyRot;
+	[SerializeField] private Vector3 _idleStanceRot;
+	[SerializeField] private Vector3 _movingLeftRot;
+	[SerializeField] private float _playerSpeed;
 
 
 	void Awake()
@@ -48,7 +46,7 @@ public class PlayerController : MonoBehaviour
 		if (collision.transform.parent.tag.Equals("DestroyableGround"))
 			Destroy(collision.gameObject);
 
-		if(collision.transform.parent.tag.Equals("Enemy"))
+		if (collision.transform.parent.tag.Equals("Enemy"))
 			Debug.Log("Game Over");
 	}
 
@@ -58,22 +56,22 @@ public class PlayerController : MonoBehaviour
 		switch (movementDir)
 		{
 			case TouchController.Movement.Up:
-				transform.position += new Vector3(0, PlayerSpeed, 0);
-				transform.eulerAngles = MovingVerticallyRot;
+				transform.position += new Vector3(0, _playerSpeed, 0);
+				transform.eulerAngles = _movingVerticallyRot;
 				break;
 
 			case TouchController.Movement.Down:
-				transform.position += new Vector3(0, -PlayerSpeed, 0);
-				transform.eulerAngles = -MovingVerticallyRot;
+				transform.position += new Vector3(0, -_playerSpeed, 0);
+				transform.eulerAngles = -_movingVerticallyRot;
 				break;
 
 			case TouchController.Movement.Left:
-				transform.position += new Vector3(0, 0, -PlayerSpeed);
-				transform.eulerAngles = MovingLeftRot;
+				transform.position += new Vector3(0, 0, -_playerSpeed);
+				transform.eulerAngles = _movingLeftRot;
 				break;
 
 			case TouchController.Movement.Right:
-				transform.position += new Vector3(0, 0, PlayerSpeed);
+				transform.position += new Vector3(0, 0, _playerSpeed);
 				transform.eulerAngles = Vector3.zero;
 				break;
 		}
