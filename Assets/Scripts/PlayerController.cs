@@ -5,9 +5,8 @@ public class PlayerController : MonoBehaviour
 	// Player Environment Variables
 	private TouchController.Movement _playerMovement;
 
-	[SerializeField] private Vector3 _movingVerticallyRot;
-	[SerializeField] private Vector3 _idleStanceRot;
-	[SerializeField] private Vector3 _movingLeftRot;
+	[SerializeField] private Vector3 _verticalRot;
+	[SerializeField] private Vector3 _leftRot;
 	[SerializeField] private float _playerSpeed;
 
 
@@ -20,9 +19,7 @@ public class PlayerController : MonoBehaviour
 	void FixedUpdate()
 	{
 		if (_playerMovement != TouchController.Movement.Stationary)
-		{
-			MovePlayer(_playerMovement);
-		}
+			MovementController.Move(gameObject.transform, _playerMovement, _verticalRot, _leftRot, _playerSpeed);
 
 
 		if (TouchController.SwipedUp() || Input.GetKey(KeyCode.W))
@@ -36,8 +33,6 @@ public class PlayerController : MonoBehaviour
 
 		else if (TouchController.SwipedRight() || Input.GetKey(KeyCode.D))
 			_playerMovement = TouchController.Movement.Right;
-
-		Debug.Log(_playerMovement);
 	}
 
 
@@ -48,32 +43,5 @@ public class PlayerController : MonoBehaviour
 
 		if (collision.transform.tag.Equals("Enemy"))
 			Debug.Log("Game Over");
-	}
-
-
-	void MovePlayer(TouchController.Movement movementDir)
-	{
-		switch (movementDir)
-		{
-			case TouchController.Movement.Up:
-				transform.position += new Vector3(0, _playerSpeed, 0);
-				transform.eulerAngles = _movingVerticallyRot;
-				break;
-
-			case TouchController.Movement.Down:
-				transform.position += new Vector3(0, -_playerSpeed, 0);
-				transform.eulerAngles = -_movingVerticallyRot;
-				break;
-
-			case TouchController.Movement.Left:
-				transform.position += new Vector3(0, 0, -_playerSpeed);
-				transform.eulerAngles = _movingLeftRot;
-				break;
-
-			case TouchController.Movement.Right:
-				transform.position += new Vector3(0, 0, _playerSpeed);
-				transform.eulerAngles = Vector3.zero;
-				break;
-		}
 	}
 }
