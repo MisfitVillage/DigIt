@@ -2,8 +2,8 @@
 
 public class PlayerController : MonoBehaviour
 {
-	// Player Environment Variables
 	private TouchController.Movement _playerMovement;
+	private Animator _playerAnimator;
 
 	[SerializeField] private Vector3 _verticalRot;
 	[SerializeField] private Vector3 _leftRot;
@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 	void Awake()
 	{
 		_playerMovement = TouchController.Movement.Stationary;
+		_playerAnimator = gameObject.GetComponent<Animator>();
 	}
 
 
@@ -23,16 +24,31 @@ public class PlayerController : MonoBehaviour
 
 
 		if (TouchController.SwipedUp() || Input.GetKey(KeyCode.W))
+		{
 			_playerMovement = TouchController.Movement.Up;
+			_playerAnimator.SetBool("Walking", true);
+		}
+
 
 		else if (TouchController.SwipedDown() || Input.GetKey(KeyCode.S))
+		{
 			_playerMovement = TouchController.Movement.Down;
+			_playerAnimator.SetBool("Walking", true);
+		}
+
 
 		else if (TouchController.SwipedLeft() || Input.GetKey(KeyCode.A))
+		{
 			_playerMovement = TouchController.Movement.Left;
+			_playerAnimator.SetBool("Walking", true);
+		}
+
 
 		else if (TouchController.SwipedRight() || Input.GetKey(KeyCode.D))
+		{
 			_playerMovement = TouchController.Movement.Right;
+			_playerAnimator.SetBool("Walking", true);
+		}
 	}
 
 
@@ -42,6 +58,9 @@ public class PlayerController : MonoBehaviour
 			Destroy(collision.gameObject);
 
 		if (collision.transform.tag.Equals("Enemy"))
+		{
+			// Toggle GameOver Condition here
 			Debug.Log("Game Over");
+		}
 	}
 }
