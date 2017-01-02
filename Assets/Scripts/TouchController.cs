@@ -2,16 +2,6 @@
 
 public class TouchController : MonoBehaviour
 {
-	// Enum to set perpetual movement
-	public enum Movement
-	{
-		Up,
-		Down,
-		Left,
-		Right,
-		Stationary
-	}
-
 	// This function detects if the user swiped up on the screen and
 	// returns a boolean value accordingly
 	public static bool SwipedUp()

@@ -2,53 +2,61 @@
 
 public class MovementController : MonoBehaviour
 {
-	public static void Move(Transform objTransform, TouchController.Movement movementDir, Vector3 vertRot, Vector3 leftRot,
-		float speed)
+	// Enum to set perpetual movement
+	public enum Movement
 	{
+		Up,
+		Down,
+		Left,
+		Right,
+		Stationary
+	}
+
+
+	// Receives a Movement direction and returns its Vector3 direction
+	public static Vector3 MovementToVector3(Movement movement)
+	{
+		if (movement == Movement.Up)
+			return Vector3.up;
+
+		if (movement == Movement.Down)
+			return Vector3.down;
+
+		if (movement == Movement.Left)
+			return Vector3.forward;
+
+		if (movement == Movement.Right)
+			return Vector3.back;
+
+		return Vector3.zero;
+	}
+
+
+	// Moves an object and applies rotation
+	public static void Move(Transform objTransform, Movement movementDir, Vector3 upRot, Vector3 downRot,
+		Vector3 leftRot, Vector3 rightRot, float speed)
+	{
+		// I hate Quaternions, so screw that noise.
 		switch (movementDir)
 		{
-			case TouchController.Movement.Up:
+			case Movement.Up:
 				objTransform.transform.position += new Vector3(0, speed, 0);
-				objTransform.transform.eulerAngles = vertRot;
+				objTransform.transform.eulerAngles = upRot;
 				break;
 
-			case TouchController.Movement.Down:
+			case Movement.Down:
 				objTransform.transform.position += new Vector3(0, -speed, 0);
-				objTransform.transform.eulerAngles = -vertRot;
+				objTransform.transform.eulerAngles = downRot;
 				break;
 
-			case TouchController.Movement.Left:
+			case Movement.Left:
 				objTransform.transform.position += new Vector3(0, 0, -speed);
 				objTransform.transform.eulerAngles = leftRot;
 				break;
 
-			case TouchController.Movement.Right:
+			case Movement.Right:
 				objTransform.transform.position += new Vector3(0, 0, speed);
-				objTransform.transform.eulerAngles = Vector3.zero;
-				break;
-		}
-	}
-
-
-	public static void Move(Transform objTransform, TouchController.Movement movementDir, float speed)
-	{
-		switch (movementDir)
-		{
-			case TouchController.Movement.Up:
-				objTransform.transform.position += new Vector3(0, speed, 0);
-				break;
-
-			case TouchController.Movement.Down:
-				objTransform.transform.position += new Vector3(0, -speed, 0);
-				break;
-
-			case TouchController.Movement.Left:
-				objTransform.transform.position += new Vector3(0, 0, -speed);
-				break;
-
-			case TouchController.Movement.Right:
-				objTransform.transform.position += new Vector3(0, 0, speed);
-				objTransform.transform.eulerAngles = Vector3.zero;
+				objTransform.transform.eulerAngles = rightRot;
 				break;
 		}
 	}

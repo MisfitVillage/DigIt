@@ -2,51 +2,54 @@
 
 public class PlayerController : MonoBehaviour
 {
-	private TouchController.Movement _playerMovement;
+	private MovementController.Movement _playerMovement;
 	private Animator _playerAnimator;
 
-	[SerializeField] private Vector3 _verticalRot;
+	[SerializeField] private Vector3 _upRot;
+	[SerializeField] private Vector3 _downRot;
 	[SerializeField] private Vector3 _leftRot;
+	[SerializeField] private Vector3 _rightRot;
 	[SerializeField] private float _playerSpeed;
 
 
 	void Awake()
 	{
-		_playerMovement = TouchController.Movement.Stationary;
+		_playerMovement = MovementController.Movement.Stationary;
 		_playerAnimator = gameObject.GetComponent<Animator>();
 	}
 
 
 	void FixedUpdate()
 	{
-		if (_playerMovement != TouchController.Movement.Stationary)
-			MovementController.Move(gameObject.transform, _playerMovement, _verticalRot, _leftRot, _playerSpeed);
+		if (_playerMovement != MovementController.Movement.Stationary)
+			MovementController.Move(gameObject.transform, _playerMovement, _upRot, _downRot, _leftRot, _rightRot,
+				_playerSpeed);
 
 
 		if (TouchController.SwipedUp() || Input.GetKey(KeyCode.W))
 		{
-			_playerMovement = TouchController.Movement.Up;
+			_playerMovement = MovementController.Movement.Up;
 			_playerAnimator.SetBool("Walking", true);
 		}
 
 
 		else if (TouchController.SwipedDown() || Input.GetKey(KeyCode.S))
 		{
-			_playerMovement = TouchController.Movement.Down;
+			_playerMovement = MovementController.Movement.Down;
 			_playerAnimator.SetBool("Walking", true);
 		}
 
 
 		else if (TouchController.SwipedLeft() || Input.GetKey(KeyCode.A))
 		{
-			_playerMovement = TouchController.Movement.Left;
+			_playerMovement = MovementController.Movement.Left;
 			_playerAnimator.SetBool("Walking", true);
 		}
 
 
 		else if (TouchController.SwipedRight() || Input.GetKey(KeyCode.D))
 		{
-			_playerMovement = TouchController.Movement.Right;
+			_playerMovement = MovementController.Movement.Right;
 			_playerAnimator.SetBool("Walking", true);
 		}
 	}
