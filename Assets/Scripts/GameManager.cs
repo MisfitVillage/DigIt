@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+	public int LevelCoinCount;
+
 	void Start()
 	{
 		Application.targetFrameRate = 60;
