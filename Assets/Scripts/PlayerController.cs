@@ -15,8 +15,9 @@ public class PlayerController : MonoBehaviour
 	}
 
 	public AudioClip clip;
+    public AudioClip clip2;
 
-	[SerializeField] private Vector3 _upRot;
+    [SerializeField] private Vector3 _upRot;
 	[SerializeField] private Vector3 _downRot;
 	[SerializeField] private Vector3 _leftRot;
 	[SerializeField] private Vector3 _rightRot;
@@ -82,7 +83,8 @@ public class PlayerController : MonoBehaviour
 		if (collision.transform.tag.Equals("Coin"))
 		{
 			Destroy(collision.gameObject);
-			CoinCount++;
+            AudioSource.PlayClipAtPoint(clip2, new Vector3(0, 0, 0));
+            CoinCount++;
 		}
 
 		if (collision.transform.tag.Equals("Enemy"))
