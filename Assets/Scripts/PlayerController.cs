@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 	private Animator _playerAnimator;
 	private GameManager _gm;
 	private int _coinCount;
+	private int _coinLimiter;
 
 	public int CoinCount
 	{
@@ -15,9 +16,9 @@ public class PlayerController : MonoBehaviour
 	}
 
 	public AudioClip clip;
-    public AudioClip clip2;
+	public AudioClip clip2;
 
-    [SerializeField] private Vector3 _upRot;
+	[SerializeField] private Vector3 _upRot;
 	[SerializeField] private Vector3 _downRot;
 	[SerializeField] private Vector3 _leftRot;
 	[SerializeField] private Vector3 _rightRot;
@@ -29,12 +30,14 @@ public class PlayerController : MonoBehaviour
 		_playerMovement = MovementController.Movement.Stationary;
 		_playerAnimator = gameObject.GetComponent<Animator>();
 		_coinCount = 0;
+		_coinLimiter = 0;
 		_gm = GameObject.Find("LevelManager").GetComponent<GameManager>();
 	}
 
 
 	void FixedUpdate()
 	{
+		Debug.Log(CoinCount);
 		if (_playerMovement != MovementController.Movement.Stationary)
 			MovementController.Move(gameObject.transform, _playerMovement, _upRot, _downRot, _leftRot, _rightRot,
 				_playerSpeed);
@@ -82,9 +85,12 @@ public class PlayerController : MonoBehaviour
 
 		if (collision.transform.tag.Equals("Coin"))
 		{
-			Destroy(collision.gameObject);
-            AudioSource.PlayClipAtPoint(clip2, new Vector3(0, 0, 0));
-            CoinCount++;
+			AudioSource.PlayClipAtPoint(clip2, new Vector3(0, 0, 0));
+			if (_coinLimiter == 0)
+			{
+				CoinCount++;
+				_coinLimiter++;
+			}
 		}
 
 		if (collision.transform.tag.Equals("Enemy"))
@@ -93,6 +99,16 @@ public class PlayerController : MonoBehaviour
 			Debug.Log("Game Over");
 			var levelManager = GameObject.FindGameObjectWithTag("Level Manager").gameObject.GetComponent<GameManager>();
 			levelManager.LoadScene(4);
+		}
+	}
+
+
+	void OnCollisionStay(Collision collision)
+	{
+		if (collision.transform.tag.Equals("Coin"))
+		{
+			Destroy(collision.gameObject);
+			_coinLimiter = 0;
 		}
 	}
 }
