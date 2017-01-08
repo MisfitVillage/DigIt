@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour
 	}
 
 
-	void Update()
+	void FixedUpdate()
 	{
 		if (_enemyMovement != MovementController.Movement.Stationary)
 		{

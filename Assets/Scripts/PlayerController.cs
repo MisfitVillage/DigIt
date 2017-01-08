@@ -15,13 +15,14 @@ public class PlayerController : MonoBehaviour
 		private set { _coinCount = value; }
 	}
 
-	public AudioClip clip;
-	public AudioClip clip2;
+	[SerializeField] private AudioClip _blockDestroySfx;
+	[SerializeField] private AudioClip _coinPickupSfx;
 
 	[SerializeField] private Vector3 _upRot;
 	[SerializeField] private Vector3 _downRot;
 	[SerializeField] private Vector3 _leftRot;
 	[SerializeField] private Vector3 _rightRot;
+
 	[SerializeField] private float _playerSpeed;
 
 
@@ -37,7 +38,6 @@ public class PlayerController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		Debug.Log(CoinCount);
 		if (_playerMovement != MovementController.Movement.Stationary)
 			MovementController.Move(gameObject.transform, _playerMovement, _upRot, _downRot, _leftRot, _rightRot,
 				_playerSpeed);
@@ -80,12 +80,12 @@ public class PlayerController : MonoBehaviour
 		if (collision.transform.parent.tag.Equals("DestroyableGround"))
 		{
 			Destroy(collision.gameObject);
-			AudioSource.PlayClipAtPoint(clip, new Vector3(0, 0, 0));
+			AudioSource.PlayClipAtPoint(_blockDestroySfx, new Vector3(0, 0, 0));
 		}
 
 		if (collision.transform.tag.Equals("Coin"))
 		{
-			AudioSource.PlayClipAtPoint(clip2, new Vector3(0, 0, 0));
+			AudioSource.PlayClipAtPoint(_coinPickupSfx, new Vector3(0, 0, 0));
 			if (_coinLimiter == 0)
 			{
 				CoinCount++;
@@ -97,8 +97,7 @@ public class PlayerController : MonoBehaviour
 		{
 			// Toggle GameOver Condition here
 			Debug.Log("Game Over");
-			var levelManager = GameObject.FindGameObjectWithTag("Level Manager").gameObject.GetComponent<GameManager>();
-			levelManager.LoadScene(4);
+			_gm.LoadScene(4);
 		}
 	}
 
