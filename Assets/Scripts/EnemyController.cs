@@ -27,14 +27,14 @@ public class EnemyController : MonoBehaviour
 		if (_enemyMovement != MovementController.Movement.Stationary)
 		{
 			if (CheckIfHit())
-				_enemyMovement = GetNewDirection();
+				_enemyMovement = GetRandomDirection();
 
 			MovementController.Move(gameObject.transform, _enemyMovement, _upRot, _downRot, _leftRot, _rightRot,
 				_enemyMovementSpeed);
 		}
 
 		else
-			_enemyMovement = GetNewDirection();
+			_enemyMovement = GetRandomDirection();
 	}
 
 
@@ -51,31 +51,35 @@ public class EnemyController : MonoBehaviour
 	}
 
 
-	// Returns a direction that the enemy can move towards
-	MovementController.Movement GetNewDirection()
+	MovementController.Movement GetRandomDirection()
 	{
-		var allowedMovement = new List<MovementController.Movement>();
+		var allowedMovement = new[]
+		{
+			MovementController.Movement.Up,
+			MovementController.Movement.Down,
+			MovementController.Movement.Left,
+			MovementController.Movement.Right
+		};
 
-		var hitUp = Physics.Raycast(transform.position, Vector3.up, 1f);
-		if (!hitUp)
-			allowedMovement.Add(MovementController.Movement.Up);
-
-		var hitDown = Physics.Raycast(transform.position, Vector3.down, 1f);
-		if (!hitDown)
-			allowedMovement.Add(MovementController.Movement.Down);
-
-		var hitForward = Physics.Raycast(transform.position, Vector3.forward, 1f);
-		if (!hitForward)
-			allowedMovement.Add(MovementController.Movement.Left);
-
-		var hitBack = Physics.Raycast(transform.position, Vector3.back, 1f);
-		if (!hitBack)
-			allowedMovement.Add(MovementController.Movement.Right);
-
-		if (allowedMovement.Count == 0)
-			return MovementController.Movement.Stationary;
-
-		int r = Random.Range(0, allowedMovement.Count);
+		int r = Random.Range(0, allowedMovement.Length);
 		return allowedMovement[r];
+	}
+
+
+	void OnCollisionEnter(Collision collision)
+	{
+		if (collision.transform.parent.tag.Equals("Player"))
+			return;
+
+		_enemyMovement = GetRandomDirection();
+	}
+
+
+	void OnCollisionStay(Collision collision)
+	{
+		if (collision.transform.parent.tag.Equals("Player"))
+			return;
+
+		_enemyMovement = GetRandomDirection();
 	}
 }
